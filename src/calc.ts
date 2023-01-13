@@ -91,7 +91,7 @@ export async function calculator(
 			'0',
 			'00',
 			'=',
-			'Delete'
+			'Suppr'
 		];
 		let current = 0;
 
@@ -211,7 +211,7 @@ export async function calculator(
 
 			elem = elem + btnName.toString();
 
-			if (btnName === 'Delete') return await msg.delete().catch(() => {});
+			if (btnName === 'Suppr') return await msg.delete().catch(() => {});
 			else if (btnName === 'Clear') elem = '0';
 			if (btnName === '⌫') elem = elem.slice(0, -2);
 
@@ -235,7 +235,7 @@ export async function calculator(
 			emb1.setDescription(
 				`\`\`\`js\n${elem
 					.replaceAll('+', ' + ')
-					.replaceAll('*', ' * ')}\n// Result: ${mathEval(elem)
+					.replaceAll('*', ' * ')}\n// Résultat : ${mathEval(elem)
 					.replaceAll('^', '**')
 					.replaceAll('%', '/100')
 					.replace(' ', '')}\n\`\`\`` +
@@ -256,7 +256,7 @@ export async function calculator(
 			if (msg) {
 				if (msg.editable) {
 					emb1.setDescription(
-						'Your Time for using the calculator ran out (5 minutes)'
+						"Le temps d'utilisation de la calcuatrice est dépassée. (5 minutes)."
 					);
 					emb1.setColor(0xc90000);
 					await msg.edit({ embeds: [emb1], components: [] }).catch(() => {});
@@ -277,7 +277,7 @@ export async function calculator(
 			style: MessageButtonStyle = options.buttons?.numbers
 		) {
 			if (label === 'Clear') style = options.buttons?.delete;
-			else if (label === 'Delete') style = options.buttons?.delete;
+			else if (label === 'Suppr') style = options.buttons?.delete;
 			else if (label === '⌫') style = options.buttons?.delete;
 			else if (label === 'π') style = options.buttons?.numbers;
 			else if (label === '%') style = options.buttons?.numbers;
@@ -296,7 +296,7 @@ export async function calculator(
 		function mathEval(input: string, result = false, symbol = false) {
 			try {
 				const matched = evalRegex.exec(input);
-				if (!matched) return 'Invalid';
+				if (!matched) return 'Invalide';
 
 				if (result === false) {
 					return `${Function(
@@ -309,12 +309,12 @@ export async function calculator(
 						`"use strict";let π=Math.PI;return (${input})`
 					)()}`;
 			} catch {
-				return 'Wrong Input';
+				return 'Erreur de frappe';
 			}
 		}
 	} catch (err: any) {
 		console.log(
-			`${chalk.red('Error Occurred.')} | ${chalk.magenta(
+			`${chalk.red('Une erreur est survenue.')} | ${chalk.magenta(
 				'calculator'
 			)} | Error: ${err.stack}`
 		);
